@@ -25,17 +25,17 @@ class Person{
 // Після реалізації всіх класів створіть об'єкти для кожного класу та спробуйте відтворити сценарій, в якому людина приходить додому.
 
 abstract class House{
-    public door : "open"|"closed"
+    public door : boolean=false;
     protected key: Key;
-    public tenants:Person[];
+    public tenants:Person[]=[];
 
     constructor(k:Key){
 
         this.key = k;
     }
 
-    comeIn(visitor:Person){
-        if(this.door==="open"){
+    comeIn(visitor:Person):void{
+        if(!this.door){
             console.log("NO YOU DON'T!!!");
         }else{
             this.tenants.push(visitor);
@@ -43,34 +43,17 @@ abstract class House{
         }
     }
 
-    openDoor(k:Key):boolean{
-        return false;
-    };
+    abstract openDoor(k:Key):void;
 }
 
 class MyHouse extends House{
-
-    constructor(k:Key){
-        super(k);
-        this.tenants=[];
-        this.door="closed";
-    }
-
-
-
-    openDoor(k:Key):boolean{
-        if(k.getSignature()===this.key.getSignature()){
-            if(this.door==="open"){
-                console.log("it is already open");
-                return false;
-            }
+    openDoor(k:Key):void{
+        if(k.getSignature()===this.key.getSignature()){    
             console.log("open successfuly");
-            this.door = "open";
-            return true;
+            this.door = true;
+        }else{
+            console.log("You jam the key into tiny hole hole, and although it fits, you can't turn it. Seems like the key doesn't fit.");
         }
-        console.log("You jam the key into tiny hole hole, and although it fits, you can't turn it. Seems like the key doesn't fit.");
-
-        return false;
     };
 }
 
